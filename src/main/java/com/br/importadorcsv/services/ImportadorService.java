@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import com.br.importadorcsv.models.Telefone;
+import com.br.importadorcsv.repository.ImportadorRepository;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import org.springframework.stereotype.Service;
@@ -15,7 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ImportadorService {
 
-    public ImportadorService() {
+    private ImportadorRepository repository;
+
+    public ImportadorService(ImportadorRepository repository) {
+        this.repository = repository;
     }
 
     public List<Telefone> importarCsv(MultipartFile file) {
@@ -33,6 +37,10 @@ public class ImportadorService {
             System.out.println(e.getStackTrace());
             return null;
         }
+    }
+
+    public void exportarCsv() {
+        this.repository.findAll();
     }
 
     

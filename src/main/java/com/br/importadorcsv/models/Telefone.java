@@ -2,9 +2,11 @@ package com.br.importadorcsv.models;
 
 import com.opencsv.bean.CsvBindByName;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Telefone {
     
     @CsvBindByName(column = "ddd")

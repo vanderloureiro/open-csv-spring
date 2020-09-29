@@ -7,6 +7,7 @@ import com.br.importadorcsv.services.ImportadorService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +31,12 @@ public class ImportadorController {
     @PostMapping
     public ResponseEntity<List<Telefone>> importarCsv(@RequestParam MultipartFile file) {
         return ResponseEntity.ok().body(this.importadorService.importarCsv(file));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> exportarCsv() {
+        this.importadorService.exportarCsv();
+        return ResponseEntity.ok().build();
     }
     
 }
