@@ -1,10 +1,18 @@
 package com.br.importadorcsv.controllers;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.br.importadorcsv.models.Telefone;
 import com.br.importadorcsv.services.ImportadorService;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +41,17 @@ public class ImportadorController {
         return ResponseEntity.ok().body(this.importadorService.importarCsv(file));
     }
 
-    @GetMapping
-    public ResponseEntity<?> exportarCsv() {
-        this.importadorService.exportarCsv();
-        return ResponseEntity.ok().build();
+    @GetMapping(produces = "text/csv")
+    public void exportarCsv(HttpServletResponse response) {
+
+        try {
+
+            response.setContentType("text/csv");
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=download.csv");
+            this.importadorService.exportarCsv(response.getWriter());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
 }

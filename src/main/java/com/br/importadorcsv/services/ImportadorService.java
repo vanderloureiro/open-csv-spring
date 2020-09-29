@@ -1,14 +1,23 @@
 package com.br.importadorcsv.services;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.List;
 
 import com.br.importadorcsv.models.Telefone;
 import com.br.importadorcsv.repository.ImportadorRepository;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,21 +35,29 @@ public class ImportadorService {
 
         try {
             InputStream inputStream = file.getInputStream();
-            BufferedReader reader   = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            List<Telefone> lista = new CsvToBeanBuilder<Telefone>(reader)
-                .withType(Telefone.class)
-                .build().parse();
-
-            return lista;
+            return new CsvToBeanBuilder<Telefone>(reader).withType(Telefone.class).build().parse();
         } catch (IOException e) {
-            System.out.println(e.getStackTrace());
             return null;
         }
     }
 
-    public void exportarCsv() {
-        this.repository.findAll();
+    public void exportarCsv(PrintWriter writer) {
+        List<Telefone> telefones = this.repository.findAll();
+
+        try {
+            StatefulBeanToCsv<Telefone> beanToCsv = new StatefulBeanToCsvBuilder<Telefone>(writer)
+            .build();
+
+            beanToCsv.write(telefones);
+            writer.close();
+
+        } catch (CsvDataTypeMismatchException e) {
+            e.printStackTrace();
+        } catch (CsvRequiredFieldEmptyException e) {
+            e.printStackTrace();
+        }
     }
 
     
