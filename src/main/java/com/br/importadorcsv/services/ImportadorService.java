@@ -48,7 +48,6 @@ public class ImportadorService {
 
             beanToCsv.write(telefones);
             writer.close();
-
         } catch (CsvDataTypeMismatchException e) {
             e.printStackTrace();
         } catch (CsvRequiredFieldEmptyException e) {

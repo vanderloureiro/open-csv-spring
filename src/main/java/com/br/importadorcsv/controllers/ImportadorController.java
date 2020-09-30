@@ -41,11 +41,10 @@ public class ImportadorController {
         return ResponseEntity.ok().body(this.importadorService.importarCsv(file));
     }
 
-    @GetMapping(produces = "text/csv")
+    @GetMapping
     public void exportarCsv(HttpServletResponse response) {
 
         try {
-
             response.setContentType("text/csv; charset=UTF-8");
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=download.csv");
             this.importadorService.exportarCsv(response.getWriter());
