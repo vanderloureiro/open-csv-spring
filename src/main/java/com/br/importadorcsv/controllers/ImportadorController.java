@@ -46,7 +46,7 @@ public class ImportadorController {
 
         try {
 
-            response.setContentType("text/csv");
+            response.setContentType("text/csv; charset=UTF-8");
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=download.csv");
             this.importadorService.exportarCsv(response.getWriter());
         } catch (IOException e) {
