@@ -1,16 +1,12 @@
 package com.br.importadorcsv.controllers;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
 import com.br.importadorcsv.models.Telefone;
 import com.br.importadorcsv.services.ImportadorService;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

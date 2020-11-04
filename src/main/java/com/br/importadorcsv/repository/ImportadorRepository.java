@@ -10,10 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ImportadorRepository {
 
-    /**
-     * Método que retorna dados estáticos 
-     * apenas para estudo de exportacao de csv
-     */
     public List<Telefone> findAll() {
         List<Telefone> lista = new ArrayList<>();
         lista.add(new Telefone("88", "994949494", "maria", "russas", "CE"));
